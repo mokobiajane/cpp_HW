@@ -8,7 +8,6 @@ Group:24.B83-mm
 st135735@student.spbu.ru
 
 </div>
-
 ---
 
 ---
