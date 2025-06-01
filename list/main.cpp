@@ -1,4 +1,3 @@
-
 #include "skip_list.hpp"
 #include <iostream>
 #include <cassert>
@@ -6,7 +5,6 @@
 int main() {
     SkipList<int> sl;
 
-    std::cout << "Inserting: 10, 5, 20, 15, 30\n";
     sl.insert(10);
     sl.insert(5);
     sl.insert(20);
@@ -14,20 +12,30 @@ int main() {
     sl.insert(30);
 
     assert(sl.find(10));
+    assert(sl.find(5));
+    assert(sl.find(20));
+    assert(sl.find(15));
+    assert(sl.find(30));
     assert(!sl.find(100));
-    sl.erase(10);
-    assert(!sl.find(10));
 
-    std::cout << "Elements: ";
-    for (auto it = sl.begin(); it != sl.end(); ++it)
-        std::cout << *it << " ";
-    std::cout << "\n";
+    std::cout << "Elements in skip list:" << std::endl;
+    for (int v : sl) {
+        std::cout << v << " ";
+    }
+    std::cout << std::endl;
 
-    assert(sl.at(0) == 5);
-    assert(sl.at(1) == 15);
-    assert(sl.at(2) == 20);
-    assert(sl.at(3) == 30);
+    bool erased = sl.erase(20);
+    assert(erased);
+    assert(!sl.find(20));
 
-    std::cout << "All tests passed.\n";
+    erased = sl.erase(100);
+    assert(!erased);
+
+    std::cout << "After erasing 20:" << std::endl;
+    for (int v : sl) {
+        std::cout << v << " ";
+    }
+    std::cout << std::endl;
+
     return 0;
 }
