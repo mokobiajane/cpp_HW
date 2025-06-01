@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['at_0',['at',['../classSkipList.html#aaeaaf5f6ce37c3b0b177c138630e69f2',1,'SkipList']]]
+  ['begin_0',['begin',['../classSkipList.html#a1b7e49822cf96e7b079fb237edf9d2b3',1,'SkipList']]]
 ];

@@ -80,7 +80,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Iterator class for <a class="el" href="classSkipList.html" title="A templated skip list implementation with support for iteration.">SkipList</a>.  
+<p>Iterator class for <a class="el" href="classSkipList.html" title="A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.">SkipList</a>.  
  <a href="classSkipList_1_1iterator.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="skip__list_8hpp_source.html">skip_list.hpp</a>&gt;</code></p>
@@ -88,26 +88,21 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af3982a5138074379ac91d11e8159b1b9" id="r_af3982a5138074379ac91d11e8159b1b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList_1_1iterator.html#af3982a5138074379ac91d11e8159b1b9">iterator</a> (Node *node=nullptr)</td></tr>
-<tr class="memdesc:af3982a5138074379ac91d11e8159b1b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an iterator from a node pointer.  <br /></td></tr>
 <tr class="separator:af3982a5138074379ac91d11e8159b1b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e9809284b1a6b84f79313308fc16033" id="r_a8e9809284b1a6b84f79313308fc16033"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList_1_1iterator.html#a8e9809284b1a6b84f79313308fc16033">operator*</a> () const</td></tr>
-<tr class="memdesc:a8e9809284b1a6b84f79313308fc16033"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dereference the iterator.  <br /></td></tr>
 <tr class="separator:a8e9809284b1a6b84f79313308fc16033"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeefdb2155dd92095eba3b790b8c16fd9" id="r_aeefdb2155dd92095eba3b790b8c16fd9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSkipList_1_1iterator.html">iterator</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList_1_1iterator.html#aeefdb2155dd92095eba3b790b8c16fd9">operator++</a> ()</td></tr>
-<tr class="memdesc:aeefdb2155dd92095eba3b790b8c16fd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pre-increment.  <br /></td></tr>
 <tr class="separator:aeefdb2155dd92095eba3b790b8c16fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed47341a8d57c30262c7335b520788a4" id="r_aed47341a8d57c30262c7335b520788a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList_1_1iterator.html#aed47341a8d57c30262c7335b520788a4">operator!=</a> (const <a class="el" href="classSkipList_1_1iterator.html">iterator</a> &amp;other) const</td></tr>
-<tr class="memdesc:aed47341a8d57c30262c7335b520788a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison.  <br /></td></tr>
 <tr class="separator:aed47341a8d57c30262c7335b520788a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03086d3d0a4bdbc4dd92df5973873e06" id="r_a03086d3d0a4bdbc4dd92df5973873e06"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList_1_1iterator.html#a03086d3d0a4bdbc4dd92df5973873e06">operator==</a> (const <a class="el" href="classSkipList_1_1iterator.html">iterator</a> &amp;other) const</td></tr>
-<tr class="memdesc:a03086d3d0a4bdbc4dd92df5973873e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison.  <br /></td></tr>
 <tr class="separator:a03086d3d0a4bdbc4dd92df5973873e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class SkipList&lt; T &gt;::iterator</div><p>Iterator class for <a class="el" href="classSkipList.html" title="A templated skip list implementation with support for iteration.">SkipList</a>. </p>
-<p>This is a forward iterator that allows range-based for loop support. It iterates over the base level (level 0) of the skip list.</p>
-<dl class="section note"><dt>Note</dt><dd>Iterators become invalid if elements are inserted or erased during iteration.</dd></dl>
+class SkipList&lt; T &gt;::iterator</div><p>Iterator class for <a class="el" href="classSkipList.html" title="A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.">SkipList</a>. </p>
+<p>Forward iterator over level 0 nodes.</p>
+<dl class="section note"><dt>Note</dt><dd>Iterators are invalidated by insert or erase.</dd></dl>
 <div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keyword">auto</span> it = sl.begin(); it != sl.end(); ++it) {</div>
 <div class="line">    std::cout &lt;&lt; *it &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
 <div class="line">}</div>
@@ -138,8 +133,6 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Construct an iterator from a node pointer. </p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -169,8 +162,6 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Inequality comparison. </p>
-
 </div>
 </div>
 <a id="a8e9809284b1a6b84f79313308fc16033" name="a8e9809284b1a6b84f79313308fc16033"></a>
@@ -197,8 +188,6 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Dereference the iterator. </p>
 
 </div>
 </div>
@@ -227,8 +216,6 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Pre-increment. </p>
-
 </div>
 </div>
 <a id="a03086d3d0a4bdbc4dd92df5973873e06" name="a03086d3d0a4bdbc4dd92df5973873e06"></a>
@@ -256,8 +243,6 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Equality comparison. </p>
 
 </div>
 </div>
