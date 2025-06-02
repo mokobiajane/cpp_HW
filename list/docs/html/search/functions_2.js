@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['find_0',['find',['../classSkipList.html#a450d8aa1cbbd78c207aa7175964509c7',1,'SkipList']]]
+  ['clear_0',['clear',['../classSkipList.html#afb91fc3bba9edd09e65f0095bd9b7668',1,'SkipList']]]
 ];

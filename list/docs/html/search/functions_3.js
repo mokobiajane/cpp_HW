@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['insert_0',['insert',['../classSkipList.html#a4fc5b868b8343f60fc0e7c0a97310a70',1,'SkipList']]],
-  ['iterator_1',['iterator',['../classSkipList_1_1iterator.html#af3982a5138074379ac91d11e8159b1b9',1,'SkipList::iterator']]]
+  ['empty_0',['empty',['../classSkipList.html#a087b46645911184814609e6f294b11da',1,'SkipList']]],
+  ['end_1',['end',['../classSkipList.html#aee2287c6395904cf537655b2a12625ee',1,'SkipList']]],
+  ['erase_2',['erase',['../classSkipList.html#a908663db4612089f79cee97158308398',1,'SkipList']]]
 ];

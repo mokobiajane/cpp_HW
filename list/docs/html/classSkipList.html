@@ -77,22 +77,22 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A templated <a class="el" href="classSkipList.html" title="A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.">SkipList</a> implementation with unique_ptr ownership and raw pointer forwards.  
- <a href="classSkipList.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="skip__list_8hpp_source.html">skip_list.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList_1_1iterator.html">iterator</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterator class for <a class="el" href="classSkipList.html" title="A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.">SkipList</a>.  <a href="classSkipList_1_1iterator.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forward iterator for SkipList&lt;T&gt;.  <a href="classSkipList_1_1iterator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaf9c007c0c7867162607c359bc223ce0" id="r_aaf9c007c0c7867162607c359bc223ce0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#aaf9c007c0c7867162607c359bc223ce0">SkipList</a> (int max_lvl=16, float p=0.5f)</td></tr>
-<tr class="memdesc:aaf9c007c0c7867162607c359bc223ce0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classSkipList.html" title="A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.">SkipList</a> with max_level and probability p.  <br /></td></tr>
-<tr class="separator:aaf9c007c0c7867162607c359bc223ce0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbe03685c02ae954f5e65ad801950285" id="r_acbe03685c02ae954f5e65ad801950285"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#acbe03685c02ae954f5e65ad801950285">SkipList</a> ()</td></tr>
+<tr class="memdesc:acbe03685c02ae954f5e65ad801950285"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty skip list.  <br /></td></tr>
+<tr class="separator:acbe03685c02ae954f5e65ad801950285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a773a0358a9e2141e12eec6165cd1ecf2" id="r_a773a0358a9e2141e12eec6165cd1ecf2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#a773a0358a9e2141e12eec6165cd1ecf2">~SkipList</a> ()</td></tr>
+<tr class="memdesc:a773a0358a9e2141e12eec6165cd1ecf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor that frees all nodes.  <br /></td></tr>
+<tr class="separator:a773a0358a9e2141e12eec6165cd1ecf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fc5b868b8343f60fc0e7c0a97310a70" id="r_a4fc5b868b8343f60fc0e7c0a97310a70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#a4fc5b868b8343f60fc0e7c0a97310a70">insert</a> (const T &amp;value)</td></tr>
 <tr class="memdesc:a4fc5b868b8343f60fc0e7c0a97310a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a value into the skip list.  <br /></td></tr>
 <tr class="separator:a4fc5b868b8343f60fc0e7c0a97310a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -100,28 +100,30 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a908663db4612089f79cee97158308398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a value from the skip list.  <br /></td></tr>
 <tr class="separator:a908663db4612089f79cee97158308398"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a450d8aa1cbbd78c207aa7175964509c7" id="r_a450d8aa1cbbd78c207aa7175964509c7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#a450d8aa1cbbd78c207aa7175964509c7">find</a> (const T &amp;value) const</td></tr>
-<tr class="memdesc:a450d8aa1cbbd78c207aa7175964509c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds if a value exists in the skip list.  <br /></td></tr>
+<tr class="memdesc:a450d8aa1cbbd78c207aa7175964509c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the value exists in the skip list.  <br /></td></tr>
 <tr class="separator:a450d8aa1cbbd78c207aa7175964509c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b7e49822cf96e7b079fb237edf9d2b3" id="r_a1b7e49822cf96e7b079fb237edf9d2b3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSkipList_1_1iterator.html">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#a1b7e49822cf96e7b079fb237edf9d2b3">begin</a> () const</td></tr>
-<tr class="memdesc:a1b7e49822cf96e7b079fb237edf9d2b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns iterator to the first element.  <br /></td></tr>
-<tr class="separator:a1b7e49822cf96e7b079fb237edf9d2b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae71932b90ba90e1f23e2822f4ec0dc1c" id="r_ae71932b90ba90e1f23e2822f4ec0dc1c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSkipList_1_1iterator.html">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#ae71932b90ba90e1f23e2822f4ec0dc1c">end</a> () const</td></tr>
-<tr class="memdesc:ae71932b90ba90e1f23e2822f4ec0dc1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns iterator to one-past-the-last element.  <br /></td></tr>
-<tr class="separator:ae71932b90ba90e1f23e2822f4ec0dc1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeaaf5f6ce37c3b0b177c138630e69f2" id="r_aaeaaf5f6ce37c3b0b177c138630e69f2"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#aaeaaf5f6ce37c3b0b177c138630e69f2">at</a> (size_t index)</td></tr>
+<tr class="memdesc:aaeaaf5f6ce37c3b0b177c138630e69f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access element by index (zero-based).  <br /></td></tr>
+<tr class="separator:aaeaaf5f6ce37c3b0b177c138630e69f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03b9154b6dbdd2c176e4eb0d79fe81fe" id="r_a03b9154b6dbdd2c176e4eb0d79fe81fe"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#a03b9154b6dbdd2c176e4eb0d79fe81fe">size</a> () const</td></tr>
+<tr class="memdesc:a03b9154b6dbdd2c176e4eb0d79fe81fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of elements in the list.  <br /></td></tr>
+<tr class="separator:a03b9154b6dbdd2c176e4eb0d79fe81fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a087b46645911184814609e6f294b11da" id="r_a087b46645911184814609e6f294b11da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#a087b46645911184814609e6f294b11da">empty</a> () const</td></tr>
+<tr class="memdesc:a087b46645911184814609e6f294b11da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the list is empty.  <br /></td></tr>
+<tr class="separator:a087b46645911184814609e6f294b11da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb91fc3bba9edd09e65f0095bd9b7668" id="r_afb91fc3bba9edd09e65f0095bd9b7668"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#afb91fc3bba9edd09e65f0095bd9b7668">clear</a> ()</td></tr>
+<tr class="memdesc:afb91fc3bba9edd09e65f0095bd9b7668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all elements from the list.  <br /></td></tr>
+<tr class="separator:afb91fc3bba9edd09e65f0095bd9b7668"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbf72e328eedbc02e969038c5680cffa" id="r_adbf72e328eedbc02e969038c5680cffa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSkipList_1_1iterator.html">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#adbf72e328eedbc02e969038c5680cffa">begin</a> ()</td></tr>
+<tr class="memdesc:adbf72e328eedbc02e969038c5680cffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the first element.  <br /></td></tr>
+<tr class="separator:adbf72e328eedbc02e969038c5680cffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee2287c6395904cf537655b2a12625ee" id="r_aee2287c6395904cf537655b2a12625ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classSkipList_1_1iterator.html">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSkipList.html#aee2287c6395904cf537655b2a12625ee">end</a> ()</td></tr>
+<tr class="memdesc:aee2287c6395904cf537655b2a12625ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator to the past-the-end element.  <br /></td></tr>
+<tr class="separator:aee2287c6395904cf537655b2a12625ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
-class SkipList&lt; T &gt;</div><p>A templated <a class="el" href="classSkipList.html" title="A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.">SkipList</a> implementation with unique_ptr ownership and raw pointer forwards. </p>
-<p>The skip list stores elements in sorted order and supports insert, erase, find, and iteration.</p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>Type of elements stored (must be comparable via <code>&lt;</code>). </td></tr>
-  </table>
-  </dd>
-</dl>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aaf9c007c0c7867162607c359bc223ce0" name="aaf9c007c0c7867162607c359bc223ce0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf9c007c0c7867162607c359bc223ce0">&#9670;&#160;</a></span>SkipList()</h2>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="acbe03685c02ae954f5e65ad801950285" name="acbe03685c02ae954f5e65ad801950285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbe03685c02ae954f5e65ad801950285">&#9670;&#160;</a></span>SkipList()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -134,42 +136,99 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;<a class="el" href="classSkipList.html">::SkipList</a> </td>
           <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>max_lvl</em> = <code>16</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>p</em> = <code>0.5f</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Constructs a <a class="el" href="classSkipList.html" title="A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.">SkipList</a> with max_level and probability p. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">max_lvl</td><td>Maximum level (default 16) </td></tr>
-    <tr><td class="paramname">p</td><td>Probability for level increment (default 0.5) </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Constructs an empty skip list. </p>
+
+</div>
+</div>
+<a id="a773a0358a9e2141e12eec6165cd1ecf2" name="a773a0358a9e2141e12eec6165cd1ecf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a773a0358a9e2141e12eec6165cd1ecf2">&#9670;&#160;</a></span>~SkipList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;::~<a class="el" href="classSkipList.html">SkipList</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor that frees all nodes. </p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1b7e49822cf96e7b079fb237edf9d2b3" name="a1b7e49822cf96e7b079fb237edf9d2b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1b7e49822cf96e7b079fb237edf9d2b3">&#9670;&#160;</a></span>begin()</h2>
+<a id="aaeaaf5f6ce37c3b0b177c138630e69f2" name="aaeaaf5f6ce37c3b0b177c138630e69f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeaaf5f6ce37c3b0b177c138630e69f2">&#9670;&#160;</a></span>at()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T &amp; <a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;::at </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Access element by index (zero-based). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index of the element. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the element at the index. </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::out_of_range</td><td>if the index is invalid.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3><a class="anchor" id="autotoc_md14"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> val = sl.at(2);</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="adbf72e328eedbc02e969038c5680cffa" name="adbf72e328eedbc02e969038c5680cffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbf72e328eedbc02e969038c5680cffa">&#9670;&#160;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,6 +242,74 @@ template&lt;typename T &gt; </div>
           <td class="memname"><a class="el" href="classSkipList_1_1iterator.html">iterator</a> <a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;::begin </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an iterator to the first element. </p>
+<dl class="section return"><dt>Returns</dt><dd>An iterator to the beginning.</dd></dl>
+<h3><a class="anchor" id="autotoc_md17"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="keywordflow">for</span> (<span class="keyword">auto</span> it = sl.begin(); it != sl.end(); ++it) {</div>
+<div class="line">    std::cout &lt;&lt; *it &lt;&lt; <span class="stringliteral">&quot; &quot;</span>;</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="afb91fc3bba9edd09e65f0095bd9b7668" name="afb91fc3bba9edd09e65f0095bd9b7668"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb91fc3bba9edd09e65f0095bd9b7668">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;::clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Removes all elements from the list. </p>
+<h3><a class="anchor" id="autotoc_md15"></a>
+Example</h3>
+<div class="fragment"><div class="line">sl.clear();</div>
+<div class="line">assert(sl.empty());</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="a087b46645911184814609e6f294b11da" name="a087b46645911184814609e6f294b11da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a087b46645911184814609e6f294b11da">&#9670;&#160;</a></span>empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;::empty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -193,12 +320,13 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns iterator to the first element. </p>
+<p>Checks whether the list is empty. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the list is empty. </dd></dl>
 
 </div>
 </div>
-<a id="ae71932b90ba90e1f23e2822f4ec0dc1c" name="ae71932b90ba90e1f23e2822f4ec0dc1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae71932b90ba90e1f23e2822f4ec0dc1c">&#9670;&#160;</a></span>end()</h2>
+<a id="aee2287c6395904cf537655b2a12625ee" name="aee2287c6395904cf537655b2a12625ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee2287c6395904cf537655b2a12625ee">&#9670;&#160;</a></span>end()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -212,7 +340,7 @@ template&lt;typename T &gt; </div>
           <td class="memname"><a class="el" href="classSkipList_1_1iterator.html">iterator</a> <a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;::end </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -222,7 +350,8 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns iterator to one-past-the-last element. </p>
+<p>Returns an iterator to the past-the-end element. </p>
+<dl class="section return"><dt>Returns</dt><dd>An iterator to the end. </dd></dl>
 
 </div>
 </div>
@@ -259,8 +388,10 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the value was found and removed, false otherwise.</dd></dl>
-<div class="fragment"><div class="line">sl.erase(10);</div>
+<dl class="section return"><dt>Returns</dt><dd>true if the value was removed, false if it was not found.</dd></dl>
+<h3><a class="anchor" id="autotoc_md12"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="keywordtype">bool</span> success = sl.erase(10);</div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -290,15 +421,17 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Finds if a value exists in the skip list. </p>
+<p>Checks if the value exists in the skip list. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">value</td><td>The value to find. </td></tr>
+    <tr><td class="paramname">value</td><td>The value to search for. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if found, false otherwise.</dd></dl>
-<div class="fragment"><div class="line"><span class="keywordtype">bool</span> found = sl.find(5);</div>
+<dl class="section return"><dt>Returns</dt><dd>true if the value exists, false otherwise.</dd></dl>
+<h3><a class="anchor" id="autotoc_md13"></a>
+Example</h3>
+<div class="fragment"><div class="line"><span class="keywordflow">if</span> (sl.find(15)) { std::cout &lt;&lt; <span class="stringliteral">&quot;Found\n&quot;</span>; }</div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -336,11 +469,40 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<div class="fragment"><div class="line"><a class="code hl_class" href="classSkipList.html">SkipList&lt;int&gt;</a> sl;</div>
-<div class="line">sl.<a class="code hl_function" href="classSkipList.html#a4fc5b868b8343f60fc0e7c0a97310a70">insert</a>(42);</div>
-<div class="ttc" id="aclassSkipList_html"><div class="ttname"><a href="classSkipList.html">SkipList</a></div><div class="ttdoc">A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.</div><div class="ttdef"><b>Definition</b> skip_list.hpp:18</div></div>
-<div class="ttc" id="aclassSkipList_html_a4fc5b868b8343f60fc0e7c0a97310a70"><div class="ttname"><a href="classSkipList.html#a4fc5b868b8343f60fc0e7c0a97310a70">SkipList::insert</a></div><div class="ttdeci">void insert(const T &amp;value)</div><div class="ttdoc">Inserts a value into the skip list.</div><div class="ttdef"><b>Definition</b> skip_list.hpp:75</div></div>
+<h3><a class="anchor" id="autotoc_md11"></a>
+Example</h3>
+<div class="fragment"><div class="line">sl.insert(42);</div>
 </div><!-- fragment --> 
+</div>
+</div>
+<a id="a03b9154b6dbdd2c176e4eb0d79fe81fe" name="a03b9154b6dbdd2c176e4eb0d79fe81fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03b9154b6dbdd2c176e4eb0d79fe81fe">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classSkipList.html">SkipList</a>&lt; T &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the number of elements in the list. </p>
+<dl class="section return"><dt>Returns</dt><dd>Size of the list. </dd></dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

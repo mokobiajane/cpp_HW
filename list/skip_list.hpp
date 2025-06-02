@@ -2,62 +2,81 @@
 #define SKIP_LIST_HPP
 
 #include <iostream>
-#include <memory>
 #include <vector>
 #include <random>
+#include <limits>
+#include <memory>
 #include <stdexcept>
+#include <iterator>
 
 /**
- * @brief A templated SkipList implementation with unique_ptr ownership and raw pointer forwards.
+ * @file skip_list.hpp
+ * @brief A templated, STL-style skip list with forward iterator support.
  * 
- * The skip list stores elements in sorted order and supports insert, erase, find, and iteration.
+ * This class provides a skip list data structure offering average-case 
+ * O(log n) complexity for insert, erase, and find operations. It supports 
+ * range-based for loops through its forward iterator.
  * 
- * @tparam T Type of elements stored (must be comparable via `<`).
+ * @tparam T The type of elements stored in the skip list.
+ * 
+ * ### Example
+ * @code
+ * #include "skip_list.hpp"
+ * #include <iostream>
+ * 
+ * int main() {
+ *     SkipList<int> sl;
+ *     sl.insert(10);
+ *     sl.insert(5);
+ *     sl.insert(20);
+ * 
+ *     for (int val : sl) {
+ *         std::cout << val << " ";
+ *     }
+ *     std::cout << std::endl;
+ * }
+ * @endcode
  */
-template <typename T>
+template<typename T>
 class SkipList {
 private:
+    static constexpr float PROBABILITY = 0.5;
+    static constexpr int MAX_LEVEL = 16;
+
     struct Node {
         T data;
-        std::vector<Node*> forward; ///< Forward pointers (raw, non-owning)
+        std::vector<Node*> forward;
 
-        explicit Node(const T& val, int level)
-            : data(val), forward(level + 1, nullptr) {}
+        Node(const T& val, int level) : data(val), forward(level + 1, nullptr) {}
     };
 
-    std::unique_ptr<Node> head;    ///< Head node owned by skip list
-    int max_level;                 ///< Maximum allowed level
-    int level;                     ///< Current highest level
-    float probability;             ///< Probability for random level generation
+    Node* head;
+    size_t size_;
+    int level;
+    std::mt19937 rng;
+    std::uniform_real_distribution<> dist;
 
-    std::default_random_engine engine;
-    std::uniform_real_distribution<float> dist;
-
-    /**
-     * @brief Generates a random level for node insertion.
-     * 
-     * The level is incremented with probability until max_level.
-     */
     int randomLevel() {
         int lvl = 0;
-        while (dist(engine) < probability && lvl < max_level) {
+        while (dist(rng) < PROBABILITY && lvl < MAX_LEVEL)
             ++lvl;
-        }
         return lvl;
     }
 
 public:
     /**
-     * @brief Constructs a SkipList with max_level and probability p.
-     * 
-     * @param max_lvl Maximum level (default 16)
-     * @param p Probability for level increment (default 0.5)
+     * @brief Constructs an empty skip list.
      */
-    explicit SkipList(int max_lvl = 16, float p = 0.5f)
-        : max_level(max_lvl), level(0), probability(p),
-          engine(std::random_device{}()), dist(0.0f, 1.0f)
-    {
-        head = std::make_unique<Node>(T{}, max_level);
+    SkipList() : size_(0), level(0), rng(std::random_device{}()), dist(0.0, 1.0) {
+        head = new Node(T{}, MAX_LEVEL);
+    }
+
+    /**
+     * @brief Destructor that frees all nodes.
+     */
+    ~SkipList() {
+        clear();
+        delete head;
     }
 
     /**
@@ -67,170 +86,271 @@ public:
      * 
      * @param value The value to insert.
      * 
+     * ### Example
      * @code
-     * SkipList<int> sl;
      * sl.insert(42);
      * @endcode
      */
     void insert(const T& value) {
-        std::vector<Node*> update(max_level + 1, nullptr);
-        Node* curr = head.get();
+        std::vector<Node*> update(MAX_LEVEL + 1);
+        Node* curr = head;
 
-        // Find places to update forward pointers
         for (int i = level; i >= 0; --i) {
-            while (curr->forward[i] && curr->forward[i]->data < value) {
+            while (curr->forward[i] && curr->forward[i]->data < value)
                 curr = curr->forward[i];
-            }
             update[i] = curr;
         }
 
         curr = curr->forward[0];
 
-        if (curr && curr->data == value) {
-            // Value already exists, ignore duplicate
-            return;
-        }
+        if (curr && curr->data == value)
+            return; // No duplicates
 
         int newLevel = randomLevel();
         if (newLevel > level) {
-            for (int i = level + 1; i <= newLevel; ++i) {
-                update[i] = head.get();
-            }
+            for (int i = level + 1; i <= newLevel; ++i)
+                update[i] = head;
             level = newLevel;
         }
 
-        // Create new node with random level
-        auto newNode = std::make_unique<Node>(value, newLevel);
-
-        // Link newNode forward pointers and update[] pointers
+        Node* newNode = new Node(value, newLevel);
         for (int i = 0; i <= newLevel; ++i) {
             newNode->forward[i] = update[i]->forward[i];
-            update[i]->forward[i] = newNode.get();
+            update[i]->forward[i] = newNode;
         }
-
-        // Now take ownership of newNode by inserting it into owned nodes container
-        // But we only own head, so to manage lifetime, we can store nodes in a container
-        // or keep them linked from head — here we leak memory if we don't track them.
-        // For simplicity, use a container to own nodes (not shown here, to keep example short)
-        // So you should add std::vector<std::unique_ptr<Node>> nodes; and push_back newNode there.
-        // For demo, this example leaks nodes except head; to fix ownership, add container.
-
-        // For demonstration only:
-        // To avoid leak in this example, we release ownership here and forget about it:
-        newNode.release();
+        ++size_;
     }
 
     /**
      * @brief Removes a value from the skip list.
      * 
      * @param value The value to remove.
-     * @return true if the value was found and removed, false otherwise.
+     * @return true if the value was removed, false if it was not found.
      * 
+     * ### Example
      * @code
-     * sl.erase(10);
+     * bool success = sl.erase(10);
      * @endcode
      */
     bool erase(const T& value) {
-        std::vector<Node*> update(max_level + 1, nullptr);
-        Node* curr = head.get();
+        std::vector<Node*> update(MAX_LEVEL + 1);
+        Node* curr = head;
 
         for (int i = level; i >= 0; --i) {
-            while (curr->forward[i] && curr->forward[i]->data < value) {
+            while (curr->forward[i] && curr->forward[i]->data < value)
                 curr = curr->forward[i];
-            }
             update[i] = curr;
         }
 
         curr = curr->forward[0];
-
         if (!curr || curr->data != value)
-            return false; // not found
+            return false;
 
-        // Update forward pointers to skip the node
         for (int i = 0; i <= level; ++i) {
             if (update[i]->forward[i] != curr)
                 break;
             update[i]->forward[i] = curr->forward[i];
         }
 
-        // If highest levels are empty, reduce current level
-        while (level > 0 && head->forward[level] == nullptr) {
+        delete curr;
+
+        while (level > 0 && !head->forward[level])
             --level;
-        }
 
-        // Node deletion: since nodes are owned nowhere except head,
-        // you must keep track of allocated nodes in a container for proper deletion.
-        // For now, this example does not delete node (memory leak).
-
+        --size_;
         return true;
     }
 
     /**
-     * @brief Finds if a value exists in the skip list.
+     * @brief Checks if the value exists in the skip list.
      * 
-     * @param value The value to find.
-     * @return true if found, false otherwise.
+     * @param value The value to search for.
+     * @return true if the value exists, false otherwise.
      * 
+     * ### Example
      * @code
-     * bool found = sl.find(5);
+     * if (sl.find(15)) { std::cout << "Found\n"; }
      * @endcode
      */
     bool find(const T& value) const {
-        Node* curr = head.get();
-
+        Node* curr = head;
         for (int i = level; i >= 0; --i) {
-            while (curr->forward[i] && curr->forward[i]->data < value) {
+            while (curr->forward[i] && curr->forward[i]->data < value)
                 curr = curr->forward[i];
-            }
         }
-
         curr = curr->forward[0];
-
         return curr && curr->data == value;
     }
 
     /**
-     * @brief Iterator class for SkipList.
+     * @brief Access element by index (zero-based).
      * 
-     * Forward iterator over level 0 nodes.
+     * @param index The index of the element.
+     * @return A reference to the element at the index.
+     * @throws std::out_of_range if the index is invalid.
      * 
-     * @note Iterators are invalidated by insert or erase.
+     * ### Example
+     * @code
+     * int val = sl.at(2);
+     * @endcode
+     */
+    T& at(size_t index) {
+        if (index >= size_)
+            throw std::out_of_range("Index out of range");
+
+        Node* curr = head->forward[0];
+        for (size_t i = 0; i < index; ++i)
+            curr = curr->forward[0];
+        return curr->data;
+    }
+
+    /**
+     * @brief Returns the number of elements in the list.
+     * @return Size of the list.
+     */
+    size_t size() const { return size_; }
+
+    /**
+     * @brief Checks whether the list is empty.
+     * @return true if the list is empty.
+     */
+    bool empty() const { return size_ == 0; }
+
+    /**
+     * @brief Removes all elements from the list.
      * 
+     * ### Example
+     * @code
+     * sl.clear();
+     * assert(sl.empty());
+     * @endcode
+     */
+    void clear() {
+        Node* curr = head->forward[0];
+        while (curr) {
+            Node* next = curr->forward[0];
+            delete curr;
+            curr = next;
+        }
+        for (int i = 0; i <= MAX_LEVEL; ++i)
+            head->forward[i] = nullptr;
+        level = 0;
+        size_ = 0;
+    }
+
+    /**
+     * @brief Forward iterator for SkipList<T>.
+     * 
+     * Supports range-based for loops and STL-style iteration.
+     */
+   /**
+     * @brief Forward iterator for the SkipList.
+     *
+     * This iterator supports standard operations such as dereferencing and increment,
+     * and is compatible with range-based for loops.
+     *
+     * @tparam T The type of element stored in the skip list.
+     *
+     * ### Example (Manual Iteration)
+     * @code
+     * SkipList<int> sl;
+     * sl.insert(1);
+     * sl.insert(3);
+     * sl.insert(2);
+     *
+     * for (SkipList<int>::iterator it = sl.begin(); it != sl.end(); ++it) {
+     *     std::cout << *it << " ";
+     * }
+     * @endcode
+     */
+    class iterator {
+        Node* ptr; ///< Internal pointer to the current node
+
+    public:
+        using iterator_category = std::forward_iterator_tag;
+        using value_type        = T;
+        using reference         = T&;
+        using pointer           = T*;
+
+        /**
+         * @brief Constructs an iterator pointing to a given node.
+         * @param p A pointer to the node the iterator should point to.
+         */
+        explicit iterator(Node* p) : ptr(p) {}
+
+        /**
+         * @brief Dereference operator.
+         * @return A reference to the current element.
+         *
+         * ### Example
+         * @code
+         * T val = *it;
+         * @endcode
+         */
+        T& operator*() { return ptr->data; }
+
+        /**
+         * @brief Arrow operator.
+         * @return A pointer to the current element.
+         *
+         * ### Example
+         * @code
+         * auto len = it->length(); // assuming T has a length() method
+         * @endcode
+         */
+        T* operator->() { return &(ptr->data); }
+
+        /**
+         * @brief Pre-increment operator.
+         * @return Reference to the incremented iterator.
+         *
+         * ### Example
+         * @code
+         * ++it;
+         * @endcode
+         */
+        iterator& operator++() {
+            if (ptr) ptr = ptr->forward[0];
+            return *this;
+        }
+
+        /**
+         * @brief Equality operator.
+         * @param other The iterator to compare with.
+         * @return true if both iterators point to the same node.
+         */
+        bool operator==(const iterator& other) const {
+            return ptr == other.ptr;
+        }
+
+        /**
+         * @brief Inequality operator.
+         * @param other The iterator to compare with.
+         * @return true if the iterators point to different nodes.
+         */
+        bool operator!=(const iterator& other) const {
+            return ptr != other.ptr;
+        }
+    };
+
+    /**
+     * @brief Returns an iterator to the first element.
+     * @return An iterator to the beginning.
+     * 
+     * ### Example
      * @code
      * for (auto it = sl.begin(); it != sl.end(); ++it) {
      *     std::cout << *it << " ";
      * }
      * @endcode
      */
-    class iterator {
-        Node* ptr;
-
-    public:
-        explicit iterator(Node* node = nullptr) : ptr(node) {}
-
-        T& operator*() const {
-            if (!ptr) throw std::runtime_error("Dereferencing end() iterator");
-            return ptr->data;
-        }
-
-        iterator& operator++() {
-            if (ptr) ptr = ptr->forward[0];
-            return *this;
-        }
-
-        bool operator!=(const iterator& other) const { return ptr != other.ptr; }
-        bool operator==(const iterator& other) const { return ptr == other.ptr; }
-    };
+    iterator begin() { return iterator(head->forward[0]); }
 
     /**
-     * @brief Returns iterator to the first element.
+     * @brief Returns an iterator to the past-the-end element.
+     * @return An iterator to the end.
      */
-    iterator begin() const { return iterator(head->forward[0]); }
-
-    /**
-     * @brief Returns iterator to one-past-the-last element.
-     */
-    iterator end() const { return iterator(nullptr); }
+    iterator end() { return iterator(nullptr); }
 };
 
 #endif // SKIP_LIST_HPP
