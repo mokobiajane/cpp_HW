@@ -5,5 +5,5 @@ var searchData=
   ['skip_5flist_2',['SKIP_LIST',['../md_README.html',1,'']]],
   ['skip_5flist_2ehpp_3',['skip_list.hpp',['../skip__list_8hpp.html',1,'']]],
   ['skiplist_4',['skiplist',['../classSkipList.html',1,'SkipList&lt; T &gt;'],['../classSkipList.html#acbe03685c02ae954f5e65ad801950285',1,'SkipList::SkipList()']]],
-  ['structure_5',['📂 Project Structure',['../md_README.html#autotoc_md3',1,'']]]
+  ['structure_5',['🏗️ Project Structure',['../md_README.html#autotoc_md14',1,'']]]
 ];

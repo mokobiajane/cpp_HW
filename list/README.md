@@ -12,16 +12,21 @@ st135735@student.spbu.ru
 
 ---
 
-### 📂 Project Structure
+## 🏗️ Project Structure
 
 ```
-card-rpg-lab/
-├── skip_list         # Header files (*.h)
-├── main               # Source code (*.cpp)
-├── tests             # Unit tests
-├── makefile           # Build configuration
-├── Doxyfile           # Doxygen settings
-└── README.md          # This file
+parallel-bmp/
+├── include/
+│   └── skip_list.hpp              # Function declarations, structs
+├── src/
+│   └── main.cpp & test.cpp            # Image processing logic and entry p
+|               
+├── docs/                     # Auto-generated Doxygen documentation
+     ├── Doxyfile & mainpage.dox                 # Doxygen configuration
+├── Makefile                  # Build script with doc generation
+└── .github/
+    └── workflows/
+        └── ci.yml            # GitHub Actions CI config
 ```
 
 ---
@@ -60,7 +65,7 @@ The project code is fully documented using Doxygen.
 
 ```bash
 # Generate documentation
-doxygen Doxyfile
+doxygen docs/Doxyfile
 xdg-open docs/html/index.html
 ```
 
