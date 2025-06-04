@@ -6,8 +6,8 @@
 #include <random>
 #include <stdexcept>
 #include <concepts>
-#include <utility> // для std::swap
-#include <cstddef> // для size_t
+#include <utility> // for std::swap
+#include <cstddef> // for size_t
 
 template<typename T>
 concept SkipListValue = requires(T a, T b) {
@@ -20,12 +20,12 @@ class SkipList {
 private:
     struct Node {
         T data;
-        std::vector<std::unique_ptr<Node>> forward;
+        std::vector<std::shared_ptr<Node>> forward;
 
         Node(const T& value, int level) : data(value), forward(level + 1) {}
     };
 
-    std::unique_ptr<Node> head;
+    std::shared_ptr<Node> head;
     int level;
     size_t node_count = 0;
     static constexpr int max_level = 16;
@@ -41,10 +41,9 @@ private:
 
 public:
     SkipList() : level(0), gen(std::random_device{}()), dis(0.0, 1.0) {
-        head = std::make_unique<Node>(T{}, max_level);
+        head = std::make_shared<Node>(T{}, max_level);
     }
 
-    // Размер списка
     size_t size() const noexcept {
         return node_count;
     }
@@ -54,90 +53,83 @@ public:
     }
 
     bool find(const T& value) const {
-        Node* curr = head.get();
+        std::shared_ptr<Node> curr = head;
         for (int i = level; i >= 0; i--) {
             while (curr->forward[i] && curr->forward[i]->data < value)
-                curr = curr->forward[i].get();
+                curr = curr->forward[i];
         }
-        curr = curr->forward[0].get();
+        curr = curr->forward[0];
         return curr && curr->data == value;
     }
 
     void insert(const T& value) {
-    std::vector<Node*> update(max_level + 1, nullptr);
-    Node* curr = head.get();
+        std::vector<std::shared_ptr<Node>> update(max_level + 1);
+        auto curr = head;
 
-    for (int i = level; i >= 0; --i) {
-        while (curr->forward[i] && curr->forward[i]->data < value) {
-            curr = curr->forward[i].get();
+        for (int i = level; i >= 0; --i) {
+            while (curr->forward[i] && curr->forward[i]->data < value) {
+                curr = curr->forward[i];
+            }
+            update[i] = curr;
         }
-        update[i] = curr;
-    }
 
-    curr = curr->forward[0].get();
+        curr = curr->forward[0];
 
-    // Avoid duplicates
-    if (curr && curr->data == value) return;
+        // Avoid duplicates
+        if (curr && curr->data == value) return;
 
-    int newLevel = randomLevel();
+        int newLevel = randomLevel();
 
-    if (newLevel > level) {
-        for (int i = level + 1; i <= newLevel; ++i) {
-            update[i] = head.get();
+        if (newLevel > level) {
+            for (int i = level + 1; i <= newLevel; ++i) {
+                update[i] = head;
+            }
+            level = newLevel;
         }
-        level = newLevel;
+
+        auto newNode = std::make_shared<Node>(value, newLevel);
+
+        for (int i = 0; i <= newLevel; ++i) {
+            newNode->forward[i] = update[i]->forward[i];
+            update[i]->forward[i] = newNode;
+        }
+
+        node_count++;
     }
-
-    
-    auto newNode = std::make_unique<Node>(value, newLevel);
-    Node* newNodeRaw = newNode.get();  
-
-    for (int i = 0; i <= newLevel; ++i) {
-        newNode->forward[i] = std::move(update[i]->forward[i]);
-        update[i]->forward[i] = nullptr; 
-    }
-
-    update[0]->forward[0] = std::move(newNode);
-
-    for (int i = 1; i <= newLevel; ++i) {
-        update[i]->forward[i].reset(newNodeRaw); 
-    }
-
-    node_count++;
-}
 
     bool erase(const T& value) {
-    std::vector<Node*> update(max_level + 1, nullptr);
-    Node* curr = head.get();
+        std::vector<std::shared_ptr<Node>> update(max_level + 1);
+        auto curr = head;
 
-    for (int i = level; i >= 0; --i) {
-        while (curr->forward[i] && curr->forward[i]->data < value)
-            curr = curr->forward[i].get();
-        update[i] = curr;
+        for (int i = level; i >= 0; --i) {
+            while (curr->forward[i] && curr->forward[i]->data < value)
+                curr = curr->forward[i];
+            update[i] = curr;
+        }
+
+        curr = curr->forward[0];
+
+        if (!curr || curr->data != value)
+            return false;
+
+        for (int i = 0; i <= level; ++i) {
+            if (update[i]->forward[i] != curr)
+                continue;
+            update[i]->forward[i] = curr->forward[i];
+        }
+
+        while (level > 0 && !head->forward[level])
+            --level;
+
+        node_count--;
+        return true;
     }
 
-    curr = curr->forward[0].get();
-
-    if (!curr || curr->data != value)
-        return false;
-
-    for (int i = 0; i <= level; ++i) {
-        if (!update[i]->forward[i] || update[i]->forward[i].get() != curr)
-            continue;
-        update[i]->forward[i] = std::move(curr->forward[i]);
-    }
-
-    while (level > 0 && !head->forward[level])
-        --level;
-
-    node_count--;
-    return true;
-}
     T& at(size_t index) {
-        Node* curr = head->forward[0].get();
+        auto curr = head->forward[0];
         size_t i = 0;
         while (curr && i < index) {
-            curr = curr->forward[0].get();
+            curr = curr->forward[0];
             i++;
         }
         if (!curr)
@@ -146,10 +138,10 @@ public:
     }
 
     const T& at(size_t index) const {
-        Node* curr = head->forward[0].get();
+        auto curr = head->forward[0];
         size_t i = 0;
         while (curr && i < index) {
-            curr = curr->forward[0].get();
+            curr = curr->forward[0];
             i++;
         }
         if (!curr)
@@ -161,7 +153,8 @@ public:
         return at(index);
     }
 
-    const T& operator[](size_t index) const {return at(index);
+    const T& operator[](size_t index) const {
+        return at(index);
     }
 
     void clear() noexcept {
@@ -170,7 +163,6 @@ public:
         level = 0;
         node_count = 0;
     }
-
     void swap(SkipList& other) noexcept {
         using std::swap;
         swap(head, other.head);
@@ -196,21 +188,21 @@ public:
     }
 
     class iterator {
-        Node* ptr;
+        std::shared_ptr<Node> ptr;
     public:
         using iterator_category = std::forward_iterator_tag;
-        using difference_type   = std::ptrdiff_t;
-        using value_type        = T;
-        using pointer           = T*;
-        using reference         = T&;
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using pointer = T*;
+        using reference = T&;
 
-        explicit iterator(Node* node = nullptr) : ptr(node) {}
+        explicit iterator(std::shared_ptr<Node> node = nullptr) : ptr(std::move(node)) {}
 
         T& operator*() const { return ptr->data; }
         T* operator->() const { return &ptr->data; }
 
         iterator& operator++() {
-            if (ptr) ptr = ptr->forward[0].get();
+            if (ptr) ptr = ptr->forward[0];
             return *this;
         }
 
@@ -224,23 +216,22 @@ public:
         bool operator!=(const iterator& other) const { return ptr != other.ptr; }
     };
 
-    // const iterator
     class const_iterator {
-        const Node* ptr;
+        std::shared_ptr<Node> ptr;
     public:
         using iterator_category = std::forward_iterator_tag;
-        using difference_type   = std::ptrdiff_t;
-        using value_type        = T;
-        using pointer           = const T*;
-        using reference         = const T&;
+        using difference_type = std::ptrdiff_t;
+        using value_type = T;
+        using pointer = const T*;
+        using reference = const T&;
 
-        explicit const_iterator(const Node* node = nullptr) : ptr(node) {}
+        explicit const_iterator(std::shared_ptr<Node> node = nullptr) : ptr(std::move(node)) {}
 
         const T& operator*() const { return ptr->data; }
         const T* operator->() const { return &ptr->data; }
 
         const_iterator& operator++() {
-            if (ptr) ptr = ptr->forward[0].get();
+            if (ptr) ptr = ptr->forward[0];
             return *this;
         }
 
@@ -254,11 +245,11 @@ public:
         bool operator!=(const const_iterator& other) const { return ptr != other.ptr; }
     };
 
-    iterator begin() noexcept { return iterator(head->forward[0].get()); }
+    iterator begin() noexcept { return iterator(head->forward[0]); }
     iterator end() noexcept { return iterator(nullptr); }
-    const_iterator begin() const noexcept { return const_iterator(head->forward[0].get()); }
+    const_iterator begin() const noexcept { return const_iterator(head->forward[0]); }
     const_iterator end() const noexcept { return const_iterator(nullptr); }
-    const_iterator cbegin() const noexcept { return const_iterator(head->forward[0].get()); }
+    const_iterator cbegin() const noexcept { return const_iterator(head->forward[0]); }
     const_iterator cend() const noexcept { return const_iterator(nullptr); }
 };
 
